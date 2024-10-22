@@ -16,10 +16,6 @@
 #include "mlx.h"
 #include <pthread.h>
 
-#define WIDTH 1000
-#define HEIGHT 900
-#define MAX_ITER 100
-
 int is_in_set(double x, double y, double cX, double cY) {
     double x0, y0;
     int i = 0;
