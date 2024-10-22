@@ -92,32 +92,6 @@ int get_color_black_white(int iter) {
     return 0xFFFFFF; // white
 }
 
-double zoom = 1.0;
-double last_rendered_zoom = 0.0;
-double offsetX = 0.0;
-double offsetY = 0.0;
-
-int mouse_hook(int button, int x, int y, void *param) {
-
-    double mouseX = (x - WIDTH / 2) / (0.5 * WIDTH * zoom) + offsetX;
-    double mouseY = (y - HEIGHT / 2) / (0.5 * HEIGHT * zoom) + offsetY;
-
-    if (button == 1) {
-        zoom = 1.0;
-        offsetX = 0.0;
-        offsetY = 0.0;
-    } else if (button == 4) {
-        zoom *= 1.1;
-        offsetX = mouseX - (x - WIDTH / 2) / (0.5 * WIDTH * zoom);
-        offsetY = mouseY - (y - HEIGHT / 2) / (0.5 * HEIGHT * zoom);
-    } else if (button == 5) {
-        zoom /= 1.1;
-        offsetX = mouseX - (x - WIDTH / 2) / (0.5 * WIDTH * zoom);
-        offsetY = mouseY - (y - HEIGHT / 2) / (0.5 * HEIGHT * zoom);
-    }
-    return 0;
-}
-
 
 int main(int argc, char **argv) {
     t_fractal fractal;

@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:30:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 15:39:56 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 15:55:49 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ typedef struct s_render_data {
     int endian;
     double min_x;
     double max_x;
-    float zoom;
+    double min_y;
+    double max_y;
     t_fractal *fractal;
 } t_render_data;
 
