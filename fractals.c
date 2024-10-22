@@ -6,11 +6,19 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:27:17 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 14:27:17 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 15:10:23 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fract_ol.h"
+
+void init_fractal(t_fractal *data){
+    data->c.r = 0;
+    data->c.i = 0;
+    data->min_x = -2.0;
+    data->max_x = 2.0;
+    data->max_iter = 50;
+}
 
 int in_set_mandelbrot(double x, double y, t_fractal *data) {
     double x0, y0;

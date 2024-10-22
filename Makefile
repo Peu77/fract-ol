@@ -1,29 +1,28 @@
-# #pragma omp parallel
-# -fopenmp
-# gcc -fopenmp -o fract_ol main.c libmlx.a -lXext -lX11 -lm && ./fract_ol
-
 NAME = fract_ol
 CC = cc
 CFLAGS = -I ft_printf -I ft_printf/libft
 MLX = libmlx.a
 FT_PRINTF = ft_printf/libftprintf.a
+BIN_DIR = bin
 
 SRC = main.c \
-	  input.c \
-	  utils.c \
-	  fractals.c \
- 	  render.c \
+   input.c \
+   utils.c \
+   fractals.c \
+   render.c \
 
+OBJ = $(SRC:%.c=$(BIN_DIR)/%.o)
 
-OBJ = $(SRC:.c=.o)
+all: $(BIN_DIR) $(NAME)
 
-all: $(NAME)
+$(BIN_DIR):
+	@mkdir -p $(BIN_DIR)
 
 $(NAME): $(OBJ)
 	@make -C ft_printf
-	@$(CC) -o $(NAME) $(OBJ) $(FT_PRINTF) $(MLX) -lXext -lX11 -lm
+	@$(CC) -o $@ $(OBJ) $(FT_PRINTF) $(MLX) -lXext -lX11 -lm
 
-%.o: %.c
+$(BIN_DIR)/%.o: %.c
 	@$(CC) -c $(CFLAGS) $< -o $@
 
 clean:

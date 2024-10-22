@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:30:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 14:21:32 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 15:13:33 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #define WIDTH 1000
 #define HEIGHT 900
+#define TITLE "Fractol"
 
 struct s_fractal;
 
@@ -40,11 +41,13 @@ typedef struct s_render_data {
     void *mlx;
     void *win;
     char *img;
-    t_fractal *data;
+    t_fractal *fractal;
 } t_render_data;
 
 
-void init_render_data(t_fractal *data);
+void init_fractal(t_fractal *data);
+
+void init_render_data(t_render_data *data);
 
 int parse_args(int argc, char **argv, t_fractal *data);
 

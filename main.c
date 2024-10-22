@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:59:22 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 14:37:28 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 15:17:55 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,19 +193,16 @@ int render_next_frame() {
 }
 
 int main(int argc, char **argv) {
-    //mlx = mlx_init();
-    //win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fractol");
+    t_fractal fractal;
+    t_render_data render_data;
 
-    // img = mlx_new_image(mlx, WIDTH, HEIGHT);
-    // data = (char *) mlx_get_data_addr(img, &bits_per_pixel, &size_line, &endian);
+    init_fractal(&fractal);
+    if(!parse_args(--argc, ++argv, &fractal)){
+        return 1;
+    }
 
-    //  mlx_mouse_hook(win, (int (*)(void)) mouse_hook, NULL);
-    // mlx_loop_hook(mlx, (int (*)(void)) render_next_frame, NULL);
-
-    // mlx_loop(mlx);
-    t_fractal data;
-
-    init_render_data(&data);
-    parse_args(++argc, ++argv, &data);
+    render_data.fractal = &fractal;
+    init_render_data(&render_data);
+    mlx_loop(render_data.mlx);
     return 0;
 }
