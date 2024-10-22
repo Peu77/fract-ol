@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:59:22 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 13:11:11 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 13:44:08 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <time.h>
 #include "mlx.h"
 #include <pthread.h>
+#include "fract_ol.h"
 
 int is_in_set(double x, double y, double cX, double cY) {
     double x0, y0;

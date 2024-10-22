@@ -52,6 +52,21 @@ build cmake_object_order_depends_target_fract_ol: phony || CMakeFiles/fract_ol.d
 build CMakeFiles/fract_ol.dir/main.c.o: C_COMPILER__fract_ol_unscanned_Debug /home/peu77/CLionProjects/fract-ol/main.c || cmake_object_order_depends_target_fract_ol
   DEP_FILE = CMakeFiles/fract_ol.dir/main.c.o.d
   FLAGS = -g -std=gnu2x -fdiagnostics-color=always
+  INCLUDES = -I/home/peu77/CLionProjects/fract-ol/libft
+  OBJECT_DIR = CMakeFiles/fract_ol.dir
+  OBJECT_FILE_DIR = CMakeFiles/fract_ol.dir
+
+build CMakeFiles/fract_ol.dir/input.c.o: C_COMPILER__fract_ol_unscanned_Debug /home/peu77/CLionProjects/fract-ol/input.c || cmake_object_order_depends_target_fract_ol
+  DEP_FILE = CMakeFiles/fract_ol.dir/input.c.o.d
+  FLAGS = -g -std=gnu2x -fdiagnostics-color=always
+  INCLUDES = -I/home/peu77/CLionProjects/fract-ol/libft
+  OBJECT_DIR = CMakeFiles/fract_ol.dir
+  OBJECT_FILE_DIR = CMakeFiles/fract_ol.dir
+
+build CMakeFiles/fract_ol.dir/render.c.o: C_COMPILER__fract_ol_unscanned_Debug /home/peu77/CLionProjects/fract-ol/render.c || cmake_object_order_depends_target_fract_ol
+  DEP_FILE = CMakeFiles/fract_ol.dir/render.c.o.d
+  FLAGS = -g -std=gnu2x -fdiagnostics-color=always
+  INCLUDES = -I/home/peu77/CLionProjects/fract-ol/libft
   OBJECT_DIR = CMakeFiles/fract_ol.dir
   OBJECT_FILE_DIR = CMakeFiles/fract_ol.dir
 
@@ -63,9 +78,9 @@ build CMakeFiles/fract_ol.dir/main.c.o: C_COMPILER__fract_ol_unscanned_Debug /ho
 #############################################
 # Link the executable fract_ol
 
-build fract_ol: C_EXECUTABLE_LINKER__fract_ol_Debug CMakeFiles/fract_ol.dir/main.c.o | /home/peu77/CLionProjects/fract-ol/libmlx.a
+build fract_ol: C_EXECUTABLE_LINKER__fract_ol_Debug CMakeFiles/fract_ol.dir/main.c.o CMakeFiles/fract_ol.dir/input.c.o CMakeFiles/fract_ol.dir/render.c.o | /home/peu77/CLionProjects/fract-ol/libmlx.a /home/peu77/CLionProjects/fract-ol/libft/libft.a
   FLAGS = -g
-  LINK_LIBRARIES = /home/peu77/CLionProjects/fract-ol/libmlx.a  -lXext -lX11 -lm -fopenmp
+  LINK_LIBRARIES = /home/peu77/CLionProjects/fract-ol/libmlx.a  /home/peu77/CLionProjects/fract-ol/libft/libft.a  -lXext -lX11 -lm -fopenmp
   OBJECT_DIR = CMakeFiles/fract_ol.dir
   POST_BUILD = :
   PRE_LINK = :
