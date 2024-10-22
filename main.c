@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:59:22 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 13:44:08 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 14:37:28 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "mlx.h"
 #include <pthread.h>
 #include "fract_ol.h"
+
+#define MAX_ITER 100
 
 int is_in_set(double x, double y, double cX, double cY) {
     double x0, y0;
@@ -190,16 +192,20 @@ int render_next_frame() {
     return 0;
 }
 
-int main(void) {
-    mlx = mlx_init();
-    win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fractol");
+int main(int argc, char **argv) {
+    //mlx = mlx_init();
+    //win = mlx_new_window(mlx, WIDTH, HEIGHT, "Fractol");
 
-    img = mlx_new_image(mlx, WIDTH, HEIGHT);
-    data = (char *) mlx_get_data_addr(img, &bits_per_pixel, &size_line, &endian);
+    // img = mlx_new_image(mlx, WIDTH, HEIGHT);
+    // data = (char *) mlx_get_data_addr(img, &bits_per_pixel, &size_line, &endian);
 
-    mlx_mouse_hook(win, (int (*)(void)) mouse_hook, NULL);
-    mlx_loop_hook(mlx, (int (*)(void)) render_next_frame, NULL);
+    //  mlx_mouse_hook(win, (int (*)(void)) mouse_hook, NULL);
+    // mlx_loop_hook(mlx, (int (*)(void)) render_next_frame, NULL);
 
-    mlx_loop(mlx);
+    // mlx_loop(mlx);
+    t_fractal data;
+
+    init_render_data(&data);
+    parse_args(++argc, ++argv, &data);
     return 0;
 }

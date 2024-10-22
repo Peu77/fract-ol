@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:30:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 13:49:30 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 14:21:32 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 #define WIDTH 1000
 #define HEIGHT 900
+
+struct s_fractal;
+
+typedef int (*t_fractal_in_set)(double, double, struct s_fractal *);
 
 typedef struct s_complex {
     double r;
@@ -29,6 +33,7 @@ typedef struct s_fractal {
     int bits_per_pixel;
     int size_line;
     int endian;
+    t_fractal_in_set in_set;
 } t_fractal;
 
 typedef struct s_render_data {
@@ -38,10 +43,19 @@ typedef struct s_render_data {
     t_fractal *data;
 } t_render_data;
 
-typedef int (*t_fractal_in_set)(double, double, t_fractal *);
 
 void init_render_data(t_fractal *data);
 
 int parse_args(int argc, char **argv, t_fractal *data);
+
+int in_set_mandelbrot(double x, double y, t_fractal *data);
+
+int in_set_julia(double x, double y, t_fractal *data);
+
+int get_color(int iter);
+
+// utils
+
+float ft_atof(const char *str);
 
 # endif
