@@ -6,17 +6,15 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:59:22 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/20 20:02:48 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 13:11:11 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <omp.h>
-#include <math.h>
 #include <unistd.h>
-#include <bits/types/time_t.h>
 #include <time.h>
 #include "mlx.h"
+#include <pthread.h>
 
 #define WIDTH 1000
 #define HEIGHT 900
@@ -25,7 +23,7 @@
 int is_in_set(double x, double y, double cX, double cY) {
     double x0, y0;
     int i = 0;
-    
+
     while (i < MAX_ITER) {
         x0 = x * x - y * y + cX;
         y0 = 2.0 * x * y + cY;
@@ -129,6 +127,32 @@ void *img;
 void *mlx;
 void *win;
 
+typedef struct {
+    int start;
+    int end;
+    double inv_zoom;
+    double inv_zoom_height;
+    char *img;
+} thread_data_t;
+
+void *render_section(void *arg) {
+    thread_data_t *data = (thread_data_t *) arg;
+    for (int x = data->start; x < data->end; x++) {
+        double zx = (x - WIDTH / 2) * data->inv_zoom + offsetX;
+        for (int y = 0; y < HEIGHT; y++) {
+            double zy = (y - HEIGHT / 2) * data->inv_zoom_height + offsetY;
+
+            int offset = is_in_set_mandelbrot(zx, zy);
+            int color = get_color(offset);
+            int pixel = (y * size_line) + (x * (bits_per_pixel / 8));
+            data->img[pixel] = color;
+            data->img[pixel + 1] = color >> 8;
+            data->img[pixel + 2] = color >> 16;
+        }
+    }
+    return NULL;
+}
+
 int render_next_frame() {
     if (last_rendered_zoom == zoom) {
         return 0;
@@ -137,29 +161,31 @@ int render_next_frame() {
     time_t start;
     time_t end;
 
-
     double inv_zoom = 1.0 / (0.5 * WIDTH * zoom);
     double inv_zoom_height = 1.0 / (0.5 * HEIGHT * zoom);
 
-#pragma omp parallel for
-    for (int x = 0; x < WIDTH; x++) {
-        double zx = (x - WIDTH / 2) * inv_zoom + offsetX;
-#pragma omp parallel for
-        for (int y = 0; y < HEIGHT; y++) {
-            double zy = (y - HEIGHT / 2) * inv_zoom_height + offsetY;
+    int num_threads = 50; // Number of threads
+    pthread_t threads[num_threads];
+    thread_data_t thread_data[num_threads];
 
-            int offset = is_in_set_mandelbrot(zx, zy);//, -0.77146, -0.10119
-            int color = get_color(offset);
-            int pixel = (y * size_line) + (x * (bits_per_pixel / 8));
-            data[pixel] = color;
-            data[pixel + 1] = color >> 8;
-            data[pixel + 2] = color >> 16;
+    int section_width = WIDTH / num_threads;
 
-
-        }
-    }
-    last_rendered_zoom = zoom;
     time(&start);
+
+    for (int i = 0; i < num_threads; i++) {
+        thread_data[i].start = i * section_width;
+        thread_data[i].end = (i + 1) * section_width;
+        thread_data[i].inv_zoom = inv_zoom;
+        thread_data[i].inv_zoom_height = inv_zoom_height;
+        thread_data[i].img = data;
+        pthread_create(&threads[i], NULL, render_section, &thread_data[i]);
+    }
+
+    for (int i = 0; i < num_threads; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    last_rendered_zoom = zoom;
     mlx_put_image_to_window(mlx, win, img, 0, 0);
     time(&end);
 
