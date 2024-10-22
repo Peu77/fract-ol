@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:30:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 15:13:33 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 15:39:56 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,22 @@ typedef struct s_complex {
 
 typedef struct s_fractal {
     struct s_complex c;
-    double min_x;
-    double max_x;
     int max_iter;
-    int bits_per_pixel;
-    int size_line;
-    int endian;
+
     t_fractal_in_set in_set;
 } t_fractal;
 
 typedef struct s_render_data {
     void *mlx;
     void *win;
-    char *img;
+    void *img;
+    char *img_data;
+    int bits_per_pixel;
+    int size_line;
+    int endian;
+    double min_x;
+    double max_x;
+    float zoom;
     t_fractal *fractal;
 } t_render_data;
 

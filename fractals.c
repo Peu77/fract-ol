@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:27:17 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 15:10:23 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/22 15:23:00 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 void init_fractal(t_fractal *data){
     data->c.r = 0;
     data->c.i = 0;
-    data->min_x = -2.0;
-    data->max_x = 2.0;
     data->max_iter = 50;
 }
 
