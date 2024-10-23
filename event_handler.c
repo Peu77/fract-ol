@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:36:00 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 12:51:51 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:34:23 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,29 @@ int key_hook(int key, void *param) {
         render_data->get_color_func = get_next_color_func();
         printf("Color function changed\n");
     }
+
+    int up = 0;
+    int right = 0;
+    
+    // right
+    if (key == 65363) {
+        right = 1;
+        // left
+    } else if (key == 65361) {
+        right = -1;
+        // top
+    } else if (key == 65362) {
+        up = 1;
+        // bottom
+    } else if (key == 65364) {
+        up = -1;
+    }
+
+    double dx = (render_data->max_x - render_data->min_x) / 10;
+    double dy = (render_data->min_y - render_data->max_y) / 10;
+
+    render_data->min_x += dx * right;
+    render_data->max_x += dx * right;
+    render_data->min_y += dy * up;
+    render_data->max_y += dy * up;
 }
