@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:46:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 13:48:28 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 15:25:33 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int draw_next_frame(void *data) {
 
             int offset = render_data->fractal->in_set(zx, zy, render_data->fractal);
             int color = render_data->get_color_func(offset, render_data->fractal->max_iter);
+
             int pixel = (y * render_data->size_line) + (x * (render_data->bits_per_pixel / 8));
 
             render_data->img_data[pixel] = color;

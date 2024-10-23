@@ -6,17 +6,20 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:30:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 13:36:05 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 15:18:16 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
+
 #include <stdbool.h>
 
 #define WIDTH 1000
 #define HEIGHT 900
 #define TITLE "Fractol"
+
+int get_color_normalized(int iter, double zx, double zy, const int max_iter);
 
 typedef int (*t_get_color_func)(int, const int);
 
@@ -65,6 +68,10 @@ int parse_args(int argc, char **argv, t_fractal *data);
 int in_set_mandelbrot(double x, double y, t_fractal *data);
 
 int in_set_julia(double x, double y, t_fractal *data);
+
+int in_burning_ship(double x, double y, t_fractal *data);
+
+int in_set_nova(double x, double y, t_fractal *data);
 
 int mouse_hook(int button, int x, int y, void *param);
 
