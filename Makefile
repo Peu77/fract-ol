@@ -10,6 +10,8 @@ SRC = main.c \
    utils.c \
    fractals.c \
    render.c \
+   event_handler.c \
+   color.c
 
 OBJ = $(SRC:%.c=$(BIN_DIR)/%.o)
 

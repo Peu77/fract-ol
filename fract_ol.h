@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:30:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/22 15:55:49 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 12:50:12 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 #define WIDTH 1000
 #define HEIGHT 900
 #define TITLE "Fractol"
+
+typedef int (*t_get_color_func)(int, const int);
+
+t_get_color_func get_next_color_func();
 
 struct s_fractal;
 
@@ -46,6 +50,7 @@ typedef struct s_render_data {
     double min_y;
     double max_y;
     t_fractal *fractal;
+    t_get_color_func get_color_func;
 } t_render_data;
 
 
@@ -59,7 +64,9 @@ int in_set_mandelbrot(double x, double y, t_fractal *data);
 
 int in_set_julia(double x, double y, t_fractal *data);
 
-int get_color(int iter);
+int mouse_hook(int button, int x, int y, void *param);
+
+int key_hook(int key, void *param);
 
 // utils
 
