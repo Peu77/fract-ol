@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:46:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 12:47:46 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:36:34 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ static int draw_next_frame(void *data) {
     static double last_render_min_x;
     static double last_render_min_y;
 
-    if (last_render_min_x == render_data->min_x && last_render_min_y == render_data->min_y) {
+    if (last_render_min_x == render_data->min_x && last_render_min_y == render_data->min_y &&
+        !render_data->update_frame) {
         return 0;
     }
 
     last_render_min_x = render_data->min_x;
     last_render_min_y = render_data->min_y;
+    render_data->update_frame = false;
 
 #pragma omp parallel for
     for (int x = 0; x < WIDTH; x++) {
@@ -47,6 +49,8 @@ static int draw_next_frame(void *data) {
 
     mlx_put_image_to_window(render_data->mlx, render_data->win, render_data->img, 0, 0);
 
+    mlx_string_put(render_data->mlx, render_data->win, 10, 10, 0xFFFFFF, "Press space to change color function");
+
     return 0;
 }
 
@@ -56,6 +60,7 @@ void init_render_data(t_render_data *data) {
     data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
     data->img_data = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->size_line, &data->endian);
     data->get_color_func = get_next_color_func();
+    data->update_frame = false;
 
     mlx_loop_hook(data->mlx, (int (*)(void)) draw_next_frame, data);
     data->min_x = -2.0;

@@ -6,12 +6,13 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:30:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 12:50:12 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:36:05 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
+#include <stdbool.h>
 
 #define WIDTH 1000
 #define HEIGHT 900
@@ -51,6 +52,7 @@ typedef struct s_render_data {
     double max_y;
     t_fractal *fractal;
     t_get_color_func get_color_func;
+    bool update_frame;
 } t_render_data;
 
 

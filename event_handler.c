@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:36:00 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 13:34:23 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:36:58 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ int key_hook(int key, void *param) {
 
     if (key == ' ') {
         render_data->get_color_func = get_next_color_func();
+        render_data->update_frame = true;
         printf("Color function changed\n");
     }
 
     int up = 0;
     int right = 0;
-    
+
     // right
     if (key == 65363) {
         right = 1;
