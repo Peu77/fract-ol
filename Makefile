@@ -9,7 +9,7 @@ SRC = main.c \
    input.c \
    utils.c \
    fractals.c \
-   render.c \
+   render_thread.c \
    event_handler.c \
    color.c
 

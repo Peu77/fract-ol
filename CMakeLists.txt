@@ -10,7 +10,8 @@ add_executable(fract_ol main.c
         utils.c
         fractals.c
         event_handler.c
-        color.c)
+        color.c
+        render_thread.c)
 
 target_include_directories(fract_ol PUBLIC ${PROJECT_SOURCE_DIR}/ft_printf)
 target_include_directories(fract_ol PUBLIC ${PROJECT_SOURCE_DIR}/ft_printf/libft)
