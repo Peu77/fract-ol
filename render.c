@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:46:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 13:36:34 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:48:28 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ static int draw_next_frame(void *data) {
     mlx_put_image_to_window(render_data->mlx, render_data->win, render_data->img, 0, 0);
 
     mlx_string_put(render_data->mlx, render_data->win, 10, 10, 0xFFFFFF, "Press space to change color function");
+    mlx_string_put(render_data->mlx, render_data->win, 10, 30, 0xFFFFFF, "Use mouse wheel to zoom in/out");
+    mlx_string_put(render_data->mlx, render_data->win, 10, 50, 0xFFFFFF, "Use arrow keys to move");
+    mlx_string_put(render_data->mlx, render_data->win, 10, 70, 0xFFFFFF, "Use Escape to quit");
+
 
     return 0;
 }

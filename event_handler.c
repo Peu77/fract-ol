@@ -6,12 +6,13 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:36:00 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 13:36:58 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 13:48:04 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fract_ol.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int mouse_hook(int button, int x, int y, void *param) {
     t_render_data *render_data = (t_render_data *) param;
@@ -42,6 +43,11 @@ int key_hook(int key, void *param) {
         render_data->get_color_func = get_next_color_func();
         render_data->update_frame = true;
         printf("Color function changed\n");
+        return 0;
+    }
+
+    if(key == 65307) {
+        exit(0);
     }
 
     int up = 0;
