@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:46:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 15:25:33 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 22:07:45 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,9 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <omp.h>
+#include <math.h>
 
-static int draw_next_frame(void *data) {
-    t_render_data *render_data = (t_render_data *) data;
-    static double last_render_min_x;
-    static double last_render_min_y;
-
-    if (last_render_min_x == render_data->min_x && last_render_min_y == render_data->min_y &&
-        !render_data->update_frame) {
-        return 0;
-    }
-
-    last_render_min_x = render_data->min_x;
-    last_render_min_y = render_data->min_y;
-    render_data->update_frame = false;
-
+static void draw_fractal(t_render_data *render_data) {
 #pragma omp parallel for
     for (int x = 0; x < WIDTH; x++) {
         double zx = (render_data->max_x - render_data->min_x) * x / WIDTH + render_data->min_x;
@@ -47,8 +35,56 @@ static int draw_next_frame(void *data) {
             render_data->img_data[pixel + 2] = color >> 16;
         }
     }
+}
+
+static void clear_image(t_render_data *render_data) {
+    for (int i = 0; i < WIDTH * HEIGHT; i++) {
+        render_data->img_data[i * (render_data->bits_per_pixel / 8)] = 0;
+        render_data->img_data[i * (render_data->bits_per_pixel / 8) + 1] = 0;
+        render_data->img_data[i * (render_data->bits_per_pixel / 8) + 2] = 0;
+    }
+}
+
+static int draw_next_frame(void *data) {
+    t_render_data *render_data = (t_render_data *) data;
+    static double last_render_min_x;
+    static double last_render_min_y;
+    static double sin_t = 0.0;
+
+    if (last_render_min_x != render_data->min_x || last_render_min_y !=
+                                                   render_data->min_y || render_data->update_frame)
+        draw_fractal(render_data);
+
+    last_render_min_x = render_data->min_x;
+    last_render_min_y = render_data->min_y;
+    render_data->update_frame = false;
 
     mlx_put_image_to_window(render_data->mlx, render_data->win, render_data->img, 0, 0);
+
+    int mouse_x;
+    int mouse_y;
+
+    mlx_mouse_get_pos(render_data->mlx, render_data->win, &mouse_x, &mouse_y);
+    int radius = sin(sin_t) * 2 + 10;
+
+    sin_t += 0.001;
+    if (sin_t > 2 * M_PI)
+        sin_t = 0.0;
+
+    if (mouse_x > 0 && mouse_x < WIDTH && mouse_y > 0 && mouse_y < HEIGHT)
+        for (int i = -radius; i <= radius; i++) {
+            for (int j = -radius; j <= radius; j++) {
+                if (i * i + j * j <= radius * radius) {
+                    int color = (int) (sin(mouse_x + i) * 255
+                                        + sin(mouse_y + j) * 255) << 16 |
+                                  (int) (sin(mouse_x + i) * 255
+                                        + sin(mouse_y + j) * 255) << 8 |
+                                  (int) (sin(mouse_x + i) * 255
+                                        + sin(mouse_y + j) * 255);
+                    mlx_pixel_put(render_data->mlx, render_data->win, mouse_x + i, mouse_y + j, color);
+                }
+            }
+        }
 
     mlx_string_put(render_data->mlx, render_data->win, 10, 10, 0xFFFFFF, "Press space to change color function");
     mlx_string_put(render_data->mlx, render_data->win, 10, 30, 0xFFFFFF, "Use mouse wheel to zoom in/out");

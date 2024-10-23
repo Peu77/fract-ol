@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:27:17 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 15:07:30 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 21:36:22 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void init_fractal(t_fractal *data){
     data->c.r = 0;
     data->c.i = 0;
-    data->max_iter = 50;
+    data->max_iter = 100;
 }
 
 int in_set_mandelbrot(double x, double y, t_fractal *data) {
@@ -88,18 +88,14 @@ int in_set_nova(double x, double y, t_fractal *data) {
     double cY = data->c.i;
 
     while (i < data->max_iter) {
-        // f(z) = z^3 - 1
-        // f'(z) = 3z^2
         x0 = x * x * x - 3 * x * y * y - 1;
         y0 = 3 * x * x * y - y * y * y;
 
-        // f'(z)
         x_temp = 3 * (x * x - y * y);
         y_temp = 6 * x * y;
 
-        // z = z - f(z) / f'(z) + c
         double denom = x_temp * x_temp + y_temp * y_temp;
-        if (denom == 0) break; // Avoid division by zero
+        if (denom == 0) break;
 
         x_temp = (x0 * x_temp + y0 * y_temp) / denom;
         y_temp = (y0 * x_temp - x0 * y_temp) / denom;

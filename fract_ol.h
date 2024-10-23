@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:30:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 15:18:16 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 21:39:47 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 #define HEIGHT 900
 #define TITLE "Fractol"
 
-int get_color_normalized(int iter, double zx, double zy, const int max_iter);
+#define ARROW_RIGHT 65363
+#define ARROW_LEFT 65361
+#define ARROW_UP 65362
+#define ARROW_DOWN 65364
 
 typedef int (*t_get_color_func)(int, const int);
 

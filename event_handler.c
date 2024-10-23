@@ -6,13 +6,14 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:36:00 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 13:48:04 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/23 21:54:12 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fract_ol.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "mlx.h"
 
 int mouse_hook(int button, int x, int y, void *param) {
     t_render_data *render_data = (t_render_data *) param;
@@ -46,7 +47,10 @@ int key_hook(int key, void *param) {
         return 0;
     }
 
-    if(key == 65307) {
+    if (key == 65307) {
+        mlx_destroy_window(render_data->mlx, render_data->win);
+        mlx_destroy_image(render_data->mlx, render_data->img);
+        mlx_destroy_display(render_data->mlx);
         exit(0);
     }
 
@@ -54,18 +58,15 @@ int key_hook(int key, void *param) {
     int right = 0;
 
     // right
-    if (key == 65363) {
+    if (key == ARROW_RIGHT)
         right = 1;
-        // left
-    } else if (key == 65361) {
+    else if (key == ARROW_LEFT)
         right = -1;
-        // top
-    } else if (key == 65362) {
+    else if (key == ARROW_UP)
         up = 1;
-        // bottom
-    } else if (key == 65364) {
+    else if (key == ARROW_DOWN)
         up = -1;
-    }
+
 
     double dx = (render_data->max_x - render_data->min_x) / 10;
     double dy = (render_data->min_y - render_data->max_y) / 10;

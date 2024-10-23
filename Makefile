@@ -1,4 +1,4 @@
-NAME = fract_ol
+NAME = fractol
 CC = cc
 CFLAGS = -I ft_printf -I ft_printf/libft -fopenmp
 MLX = libmlx.a
@@ -9,7 +9,7 @@ SRC = main.c \
    input.c \
    utils.c \
    fractals.c \
-   render_thread.c \
+   render.c \
    event_handler.c \
    color.c
 
