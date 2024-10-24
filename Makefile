@@ -9,6 +9,7 @@ SRC = main.c \
    input.c \
    utils.c \
    fractals.c \
+   nova_fractal.c \
    render_thread.c \
    common_render.c \
    event_handler.c \
