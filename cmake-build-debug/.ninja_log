@@ -1,9 +1,0 @@
-# ninja log v5
-0	34	1729706314704704760	CMakeFiles/fract_ol.dir/input.c.o	4df74ad4d4727958
-0	34	1729706314704704760	CMakeFiles/fract_ol.dir/fractals.c.o	3b0fd60b02b53197
-0	34	1729706314704704760	CMakeFiles/fract_ol.dir/event_handler.c.o	20f5669567e79065
-35	64	1729706314734704119	fract_ol	ac1a544f6499e22a
-0	35	1729706314704704760	CMakeFiles/fract_ol.dir/color.c.o	4613982a73f057b6
-0	34	1729706314704704760	CMakeFiles/fract_ol.dir/render.c.o	499d37aae277a5f
-0	34	1729706314704704760	CMakeFiles/fract_ol.dir/main.c.o	1f6076e4c979e369
-0	34	1729706314704704760	CMakeFiles/fract_ol.dir/utils.c.o	5f93758cf408a11f
