@@ -19,10 +19,26 @@
 #define HEIGHT 900
 #define TITLE "Fractol"
 
+#ifdef __linux__
+#define ESC 65307
+#define SPACE 32
 #define ARROW_RIGHT 65363
 #define ARROW_LEFT 65361
 #define ARROW_UP 65362
 #define ARROW_DOWN 65364
+#endif
+
+#ifdef __APPLE__
+#define ESC 53
+#define SPACE 49
+#define ARROW_RIGHT 124
+#define ARROW_LEFT 123
+#define ARROW_UP 126
+#define ARROW_DOWN 125
+#endif
+
+
+//#define CUSTOM_CURSOR
 
 typedef int (*t_get_color_func)(int, const int);
 

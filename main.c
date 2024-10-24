@@ -40,7 +40,6 @@ int main(int argc, char **argv) {
     init_render_data(&render_data);
     mlx_mouse_hook(render_data.win, (int (*)(void)) mouse_hook, &render_data);
     mlx_key_hook(render_data.win, (int (*)(void)) key_hook, &render_data);
-    mlx_mouse_hide(render_data.mlx, render_data.win);
     mlx_loop(render_data.mlx);
     return 0;
 }

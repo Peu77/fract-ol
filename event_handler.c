@@ -40,17 +40,17 @@ int mouse_hook(int button, int x, int y, void *param) {
 int key_hook(int key, void *param) {
     t_render_data *render_data = (t_render_data *) param;
 
-    if (key == ' ') {
+    if (key == SPACE) {
         render_data->get_color_func = get_next_color_func();
         render_data->update_frame = true;
         printf("Color function changed\n");
         return 0;
     }
 
-    if (key == 65307) {
+    if (key == ESC) {
         mlx_destroy_window(render_data->mlx, render_data->win);
         mlx_destroy_image(render_data->mlx, render_data->img);
-        mlx_destroy_display(render_data->mlx);
+       // mlx_destroy_display(render_data->mlx);
         exit(0);
     }
 

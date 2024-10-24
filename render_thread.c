@@ -14,7 +14,6 @@
 #include "mlx.h"
 #include <pthread.h>
 #include <stdio.h>
-#include <omp.h>
 
 typedef struct s_thread_data {
     t_render_data *render_data;

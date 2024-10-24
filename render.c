@@ -14,14 +14,11 @@
 #include "mlx.h"
 #include <pthread.h>
 #include <stdio.h>
-#include <omp.h>
 #include <math.h>
 
 static void draw_fractal(t_render_data *render_data) {
-#pragma omp parallel for
     for (int x = 0; x < WIDTH; x++) {
         double zx = (render_data->max_x - render_data->min_x) * x / WIDTH + render_data->min_x;
-#pragma omp parallel for
         for (int y = 0; y < HEIGHT; y++) {
             double zy = (render_data->max_y - render_data->min_y) * y / HEIGHT + render_data->min_y;
 
@@ -34,14 +31,6 @@ static void draw_fractal(t_render_data *render_data) {
             render_data->img_data[pixel + 1] = color >> 8;
             render_data->img_data[pixel + 2] = color >> 16;
         }
-    }
-}
-
-static void clear_image(t_render_data *render_data) {
-    for (int i = 0; i < WIDTH * HEIGHT; i++) {
-        render_data->img_data[i * (render_data->bits_per_pixel / 8)] = 0;
-        render_data->img_data[i * (render_data->bits_per_pixel / 8) + 1] = 0;
-        render_data->img_data[i * (render_data->bits_per_pixel / 8) + 2] = 0;
     }
 }
 
@@ -61,12 +50,13 @@ static int draw_next_frame(void *data) {
 
     mlx_put_image_to_window(render_data->mlx, render_data->win, render_data->img, 0, 0);
 
+#ifdef CUSTOM_CURSOR
+
     int mouse_x;
     int mouse_y;
 
     mlx_mouse_get_pos(render_data->mlx, render_data->win, &mouse_x, &mouse_y);
     int radius = sin(sin_t) * 2 + 10;
-
     sin_t += 0.001;
     if (sin_t > 2 * M_PI)
         sin_t = 0.0;
@@ -85,6 +75,7 @@ static int draw_next_frame(void *data) {
                 }
             }
         }
+#endif
 
     mlx_string_put(render_data->mlx, render_data->win, 10, 10, 0xFFFFFF, "Press space to change color function");
     mlx_string_put(render_data->mlx, render_data->win, 10, 30, 0xFFFFFF, "Use mouse wheel to zoom in/out");

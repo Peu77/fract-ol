@@ -1,6 +1,6 @@
 NAME = fractol
 CC = cc
-CFLAGS = -I ft_printf -I ft_printf/libft -fopenmp
+CFLAGS = -I ft_printf -I ft_printf/libft -framework OpenGL -framework AppKit
 MLX = libmlx.a
 FT_PRINTF = ft_printf/libftprintf.a
 BIN_DIR = bin
@@ -9,7 +9,7 @@ SRC = main.c \
    input.c \
    utils.c \
    fractals.c \
-   render.c \
+   render_thread.c \
    event_handler.c \
    color.c
 
@@ -22,7 +22,7 @@ $(BIN_DIR):
 
 $(NAME): $(OBJ)
 	@make -C ft_printf
-	@$(CC) -o $@ $(OBJ) $(FT_PRINTF) $(MLX) -lXext -lX11 -lm $(CFLAGS)
+	@$(CC) -o $@ $(OBJ) $(FT_PRINTF) $(MLX) -lm $(CFLAGS)
 
 $(BIN_DIR)/%.o: %.c
 	@$(CC) -c $(CFLAGS) $< -o $@
