@@ -37,7 +37,6 @@
 #define ARROW_DOWN 125
 #endif
 
-
 //#define CUSTOM_CURSOR
 
 typedef int (*t_get_color_func)(int, const int);
@@ -95,6 +94,8 @@ int in_set_nova(double x, double y, t_fractal *data);
 int mouse_hook(int button, int x, int y, void *param);
 
 int key_hook(int key, void *param);
+
+void safe_exit(t_render_data* render_data);
 
 // utils
 

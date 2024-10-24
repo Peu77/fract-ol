@@ -56,6 +56,11 @@ int parse_args(int argc, char **argv, t_fractal *data) {
         data->c.i = 0.27015;
     } else if (ft_strncmp(argv[0], "burning_ship", sizeof("burning_ship")) == 0)
         data->in_set = in_burning_ship;
+    else if(ft_strncmp(argv[0], "nova", sizeof("nova")) == 0)
+    {
+        data->in_set = in_set_nova;
+        data->max_iter = 10;
+    }
     else {
         ft_printf("Unknown fractal: %s\n", argv[0]);
         return 0;

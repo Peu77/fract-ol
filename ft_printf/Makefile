@@ -22,9 +22,11 @@ bonus: $(LIBFT) $(OBJS) $(BONUS_OBJS)
 	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
 
 clean:
+	make -C $(LIBFT_PATH) clean
 	rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
+	make -C $(LIBFT_PATH) fclean
 	rm -f $(NAME)
 
 re: fclean all
