@@ -6,97 +6,73 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:46:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/23 22:07:45 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/24 10:31:26 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fract_ol.h"
 #include "mlx.h"
+#include <math.h>
 #include <pthread.h>
 #include <stdio.h>
-#include <math.h>
 
-static void draw_fractal(t_render_data *render_data) {
-    for (int x = 0; x < WIDTH; x++) {
-        double zx = (render_data->max_x - render_data->min_x) * x / WIDTH + render_data->min_x;
-        for (int y = 0; y < HEIGHT; y++) {
-            double zy = (render_data->max_y - render_data->min_y) * y / HEIGHT + render_data->min_y;
+static void	draw_fractal(t_render_data *render_data)
+{
+	t_vec2	z;
+	t_vec2	index;
+	int		offset;
+	int		color;
+	int		pixel;
 
-            int offset = render_data->fractal->in_set(zx, zy, render_data->fractal);
-            int color = render_data->get_color_func(offset, render_data->fractal->max_iter);
-
-            int pixel = (y * render_data->size_line) + (x * (render_data->bits_per_pixel / 8));
-
-            render_data->img_data[pixel] = color;
-            render_data->img_data[pixel + 1] = color >> 8;
-            render_data->img_data[pixel + 2] = color >> 16;
-        }
-    }
+	index.x = 0;
+	while (index.x < WIDTH)
+	{
+		z.x = (render_data->max_x - render_data->min_x) * index.x / WIDTH
+			+ render_data->min_x;
+		index.y = 0;
+		while (index.y < HEIGHT)
+		{
+			z.y = (render_data->max_y - render_data->min_y) * index.y / HEIGHT
+				+ render_data->min_y;
+			apply_color_of_fractal_at_pos(render_data, index, z);
+			index.y++;
+		}
+		index.x++;
+	}
 }
 
-static int draw_next_frame(void *data) {
-    t_render_data *render_data = (t_render_data *) data;
-    static double last_render_min_x;
-    static double last_render_min_y;
-    static double sin_t = 0.0;
+static int	draw_next_frame(void *data)
+{
+	t_render_data	*render_data;
+	static double	last_render_min_x;
+	static double	last_render_min_y;
 
-    if (last_render_min_x != render_data->min_x || last_render_min_y !=
-                                                   render_data->min_y || render_data->update_frame)
-        draw_fractal(render_data);
-
-    last_render_min_x = render_data->min_x;
-    last_render_min_y = render_data->min_y;
-    render_data->update_frame = false;
-
-    mlx_put_image_to_window(render_data->mlx, render_data->win, render_data->img, 0, 0);
-
-#ifdef CUSTOM_CURSOR
-
-    int mouse_x;
-    int mouse_y;
-
-    mlx_mouse_get_pos(render_data->mlx, render_data->win, &mouse_x, &mouse_y);
-    int radius = sin(sin_t) * 2 + 10;
-    sin_t += 0.001;
-    if (sin_t > 2 * M_PI)
-        sin_t = 0.0;
-
-    if (mouse_x > 0 && mouse_x < WIDTH && mouse_y > 0 && mouse_y < HEIGHT)
-        for (int i = -radius; i <= radius; i++) {
-            for (int j = -radius; j <= radius; j++) {
-                if (i * i + j * j <= radius * radius) {
-                    int color = (int) (sin(mouse_x + i) * 255
-                                        + sin(mouse_y + j) * 255) << 16 |
-                                  (int) (sin(mouse_x + i) * 255
-                                        + sin(mouse_y + j) * 255) << 8 |
-                                  (int) (sin(mouse_x + i) * 255
-                                        + sin(mouse_y + j) * 255);
-                    mlx_pixel_put(render_data->mlx, render_data->win, mouse_x + i, mouse_y + j, color);
-                }
-            }
-        }
-#endif
-
-    mlx_string_put(render_data->mlx, render_data->win, 10, 10, 0xFFFFFF, "Press space to change color function");
-    mlx_string_put(render_data->mlx, render_data->win, 10, 30, 0xFFFFFF, "Use mouse wheel to zoom in/out");
-    mlx_string_put(render_data->mlx, render_data->win, 10, 50, 0xFFFFFF, "Use arrow keys to move");
-    mlx_string_put(render_data->mlx, render_data->win, 10, 70, 0xFFFFFF, "Use Escape to quit");
-
-
-    return 0;
+	render_data = (t_render_data *)data;
+	if (last_render_min_x != render_data->min_x
+		|| last_render_min_y != render_data->min_y || render_data->update_frame)
+		draw_fractal(render_data);
+	last_render_min_x = render_data->min_x;
+	last_render_min_y = render_data->min_y;
+	render_data->update_frame = false;
+	mlx_put_image_to_window(render_data->mlx, render_data->win,
+		render_data->img, 0, 0);
+	draw_custom_cursor(render_data->mlx, render_data->win);
+	draw_help_text(render_data);
+	return (0);
 }
 
-void init_render_data(t_render_data *data) {
-    data->mlx = mlx_init();
-    data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, TITLE);
-    data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-    data->img_data = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->size_line, &data->endian);
-    data->get_color_func = get_next_color_func();
-    data->update_frame = false;
-
-    mlx_loop_hook(data->mlx, (int (*)(void)) draw_next_frame, data);
-    data->min_x = -2.0;
-    data->max_x = 2.0;
-    data->min_y = -2.0;
-    data->max_y = 2.0;
+void	init_render_data(t_render_data *data)
+{
+	data->mlx = mlx_init();
+	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, TITLE);
+	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	data->img_data = mlx_get_data_addr(data->img, &data->bits_per_pixel,
+			&data->size_line, &data->endian);
+	data->get_color_func = get_next_color_func();
+	data->update_frame = false;
+	mlx_loop_hook(data->mlx, (int (*)(void))draw_next_frame, data);
+	data->min_x = -2.0;
+	data->max_x = 2.0;
+	data->min_y = -2.0;
+	data->max_y = 2.0;
 }

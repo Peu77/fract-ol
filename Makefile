@@ -10,6 +10,7 @@ SRC = main.c \
    utils.c \
    fractals.c \
    render_thread.c \
+   common_render.c \
    event_handler.c \
    color.c
 
