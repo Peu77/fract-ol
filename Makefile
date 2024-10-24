@@ -2,7 +2,7 @@ NAME = fractol
 CC = cc
 CFLAGS = -I ft_printf -I ft_printf/libft -I minilibx -framework OpenGL -framework AppKit
 FT_PRINTF = ft_printf/libftprintf.a
-MINILIBX = minilibx/libmlx.a
+MINILIBX_DIR = minilibx
 BIN_DIR = bin
 
 SRC = main.c \
@@ -15,6 +15,13 @@ SRC = main.c \
 
 OBJ = $(SRC:%.c=$(BIN_DIR)/%.o)
 
+ifeq ($(shell uname), Linux)
+	CFLAGS = -I ft_printf -I ft_printf/libft -I minilibx-linux -lXext -lX11 -lm
+	MINILIBX_DIR = minilibx-linux
+endif
+
+MINILIBX = $(MINILIBX_DIR)/libmlx.a
+
 all: $(BIN_DIR) $(NAME)
 
 $(BIN_DIR):
@@ -22,7 +29,7 @@ $(BIN_DIR):
 
 $(NAME): $(OBJ)
 	@make -C ft_printf
-	@make -C minilibx
+	@make -C $(MINILIBX_DIR)
 	@$(CC) -o $@ $(OBJ) $(FT_PRINTF) $(MINILIBX) -lm $(CFLAGS)
 
 $(BIN_DIR)/%.o: %.c
@@ -30,18 +37,18 @@ $(BIN_DIR)/%.o: %.c
 
 clean:
 	@make -C ft_printf clean
-	@make -C minilibx clean
+	@make -C $(MINILIBX_DIR) clean
 	@rm -f $(OBJ)
 
 fclean: clean
 	@make -C ft_printf fclean
-	@make -C minilibx clean
+	@make -C $(MINILIBX_DIR) clean
 	@rm -f $(NAME)
 
 re:
 	@make fclean
 	@make -C ft_printf fclean
-	@make -C minilibx fclean
+	@make -C $(MINILIBX_DIR) clean
 	@make all
 
 .PHONY: all clean fclean re
