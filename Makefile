@@ -1,6 +1,7 @@
 NAME = fractol
 CC = cc
-CFLAGS = -I ft_printf -I ft_printf/libft -I minilibx -framework OpenGL -framework AppKit
+CFLAGS = -I ft_printf -I ft_printf/libft -I minilibx -Wall -Wextra -Werror
+LDFLAGS = -framework OpenGL -framework AppKit
 FT_PRINTF = ft_printf/libftprintf.a
 MINILIBX_DIR = minilibx
 BIN_DIR = bin
@@ -18,8 +19,9 @@ SRC = main.c \
 OBJ = $(SRC:%.c=$(BIN_DIR)/%.o)
 
 ifeq ($(shell uname), Linux)
-	CFLAGS = -I ft_printf -I ft_printf/libft -I minilibx-linux -lXext -lX11 -lm
-	MINILIBX_DIR = minilibx-linux
+    CFLAGS = -I ft_printf -I ft_printf/libft -I minilibx-linux -Wall -Wextra -Werror
+    LDFLAGS = -lXext -lX11 -lm
+    MINILIBX_DIR = minilibx-linux
 endif
 
 MINILIBX = $(MINILIBX_DIR)/libmlx.a
@@ -32,7 +34,7 @@ $(BIN_DIR):
 $(NAME): $(OBJ)
 	@make -C ft_printf
 	@make -C $(MINILIBX_DIR)
-	@$(CC) -o $@ $(OBJ) $(FT_PRINTF) $(MINILIBX) -lm $(CFLAGS)
+	@$(CC) -o $@ $(OBJ) $(FT_PRINTF) $(MINILIBX) -lm $(LDFLAGS)
 
 $(BIN_DIR)/%.o: %.c
 	@$(CC) -c $(CFLAGS) $< -o $@

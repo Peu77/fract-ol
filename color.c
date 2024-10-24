@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:31:39 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/24 10:48:04 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/24 11:20:20 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	get_color_red_blue(int iter, const int max_iter)
 
 int	get_color_black_white(int iter, const int max_iter)
 {
+	(void)max_iter;
 	if (iter == 0)
 		return (0x000000);
 	if (iter % 2 == 0)

@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:36:00 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/24 10:40:29 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/24 11:19:46 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,6 @@ static void	handle_arrow_movement(int key, t_render_data *render_data)
 int	key_hook(int key, void *param)
 {
 	t_render_data	*render_data;
-	int				up;
-	int				right;
-	double			dx;
-	double			dy;
 
 	render_data = (t_render_data *)param;
 	if (key == SPACE)

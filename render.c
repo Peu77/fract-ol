@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:46:11 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/24 10:31:26 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/24 11:19:02 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ static void	draw_fractal(t_render_data *render_data)
 {
 	t_vec2	z;
 	t_vec2	index;
-	int		offset;
-	int		color;
-	int		pixel;
 
 	index.x = 0;
 	while (index.x < WIDTH)

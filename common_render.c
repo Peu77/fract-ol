@@ -6,7 +6,7 @@
 /*   By: eebert <eebert@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 10:23:47 by eebert            #+#    #+#             */
-/*   Updated: 2024/10/24 10:38:21 by eebert           ###   ########.fr       */
+/*   Updated: 2024/10/24 11:19:26 by eebert           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	draw_custom_cursor(void *mlx, void *win)
 
 void	draw_custom_cursor(void *mlx, void *win)
 {
+	(void)mlx;
+	(void)win;
 }
 
 #endif
